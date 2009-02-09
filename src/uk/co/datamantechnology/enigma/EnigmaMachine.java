@@ -2,7 +2,7 @@ package uk.co.datamantechnology.enigma;
 
 import java.util.*;
 
-public class Machine {
+public class EnigmaMachine {
 
 	public static final int TOTAL_NUMBER_OF_ROTORS = 5; // total number of
 														// rotors available to
@@ -22,7 +22,7 @@ public class Machine {
 													// have 2,1,0
 	int reflector;
 
-	public Machine() {
+	public EnigmaMachine() {
 		System.out.println("We're starting...");
 		setUp();
 		System.out.println("We've setup the rotors!");

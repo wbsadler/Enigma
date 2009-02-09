@@ -2,11 +2,11 @@ package uk.co.datamantechnology.enigma;
 
 import junit.framework.TestCase;
 
-public class MachineTest extends TestCase {
+public class EnigmaMachineTest extends TestCase {
 	
-	private Machine testEnigma = new Machine();
+	private EnigmaMachine testEnigma = new EnigmaMachine();
 	
-	public MachineTest(String name) {
+	public EnigmaMachineTest(String name) {
 		super(name);
 	}
 
