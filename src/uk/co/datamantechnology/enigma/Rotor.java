@@ -1,18 +1,19 @@
 package uk.co.datamantechnology.enigma;
 
 public class Rotor {
+	
+	private static Configuration cfg = new Configuration();
 
 	public static final int NUMBER_OF_LETTERS_IN_ALPHABET = 26;
+
 	String wiring;
 	int currentPosition;
 	char notch;
 	boolean offset = false;
 
-	public Rotor() {
-	}
-
-	public Rotor(int Initialosition) {
-		setCurrentPosition(Initialosition);
+	public Rotor(int rotorNumber) {
+		setNotch(cfg.getNotches()[rotorNumber-1]);
+		setWiring(cfg.getRotorWirings()[rotorNumber-1]);
 	}
 
 	public Rotor(String wiring, char notch) {
@@ -20,7 +21,7 @@ public class Rotor {
 		setNotch(notch);
 		setWiring(wiring);
 	}
-
+		
 	public int getCurrentPosition() {
 		return currentPosition;
 	}
