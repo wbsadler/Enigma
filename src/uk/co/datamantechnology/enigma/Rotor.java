@@ -9,7 +9,6 @@ public class Rotor {
 	String wiring;
 	int currentPosition;
 	char notch;
-	boolean offset = false;
 
 	public Rotor(int rotorNumber) {
 		setNotch(cfg.getNotches()[rotorNumber-1]);
@@ -61,7 +60,7 @@ public class Rotor {
 		
 		System.out.println("Encrypting currentPosition: " + this.currentPosition + " clearCharacter: " + clearCharacter + " letterIndex: " + letterIndex);
 
-		if (this.offset) {
+		if (this.currentPosition > 0) {
 			encryptedCharacter = getLetterAtPosition(letterIndex); 
 			letterIndex = (letterIndex + this.currentPosition) % NUMBER_OF_LETTERS_IN_ALPHABET;
 			System.out.print(clearCharacter + " offset to " + (char)(letterIndex +65) + " encrypted to "
@@ -82,7 +81,7 @@ public class Rotor {
 
 	public char decrypt(char encryptedChar) {
 		char decryptedChar;
-		if (this.offset) {
+		if (this.currentPosition > 0) {
 			// move the encrypted character on one in the alphabet
 			char offsetCharacter = Alphabet.goForwardThroughAlphabet(encryptedChar, this.currentPosition);
 			int decryptedCharAscii = getPositionOfLetter(offsetCharacter) + 65;
@@ -95,9 +94,6 @@ public class Rotor {
 			int decryptedCharAsciiValue = getPositionOfLetter(encryptedChar) + 65;
 			decryptedChar = (char) decryptedCharAsciiValue;
 		}
-		
-		if (this.offset)
-			this.offset = false;
 		
 		System.out.println(encryptedChar + " decrypted to " + decryptedChar);
 		return decryptedChar;
@@ -119,7 +115,6 @@ public class Rotor {
 		this.currentPosition++;
 		this.currentPosition = this.currentPosition
 				% NUMBER_OF_LETTERS_IN_ALPHABET;
-		this.offset = true;
 	}
 
 	public boolean isAtNotchPosition() {

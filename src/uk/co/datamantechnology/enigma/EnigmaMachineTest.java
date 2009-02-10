@@ -51,7 +51,81 @@ public class EnigmaMachineTest extends TestCase {
 		
 		assertEquals("These two strings don't match!", expected, actual);
 		
+		// another encryption with different rotors
+		
+		testEnigma.setWheelOrder(3,4,5);
+		testEnigma.setIndicators("AAA");
+		plainText = "AAAAA";
+		expected = "HNYNU";
+		actual = "";
+		
+		for (int i=0; i<plainText.length(); i++){
+			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
+		}
+		
+		System.out.println(plainText + " has been encrypted to: " + actual);
+		
+		assertEquals("These two strings don't match!", expected, actual);
+		
+		// another "random" set u
+		
+		
 	}
+	
+	public void testEncrypt2() {
+		// this is from Tony Sale's page www.codesandciphers.org.uk/enigma/example1.htm
+		testEnigma.setWheelOrder(1,2,3);
+		testEnigma.setIndicators("AAZ");
+		String plainText = "G";
+		String expected = "P";
+		String actual = "";
+		
+		for (int i=0; i<plainText.length(); i++){
+			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
+		}
+		
+		System.out.println(plainText + " has been encrypted to: " + actual);
+		
+		assertEquals("These two strings don't match!", expected, actual);
+		
+	}
+	
+	public void testEncrypt3(){
+		testEnigma.setWheelOrder(2,4,3);
+		testEnigma.setIndicators("DIV");
+//		testEnigma.setIndicators("AAA");
+		String plainText = "AAAAA";
+//		String plainText = "AAAAAAAAAAAAAAAAAAAAAAAAA";
+		String expected = "YLOCX";
+//		String expected = "DCVJJFXFKPVMSOQPCPYRHNJVT";
+		String actual = "";
+		
+		for (int i=0; i<plainText.length(); i++){
+			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
+		}
+		
+		System.out.println(plainText + " has been encrypted to: " + actual);
+		
+		assertEquals("These two strings don't match!", expected, actual);
+	
+	}
+	
+	
+	public void testEncrypt4(){
+		testEnigma.setWheelOrder(2,3,4);
+		testEnigma.setIndicators("AAA");
+		String plainText = "AAAAAAAAAA";
+		String expected = "IFKKLKUDOP";
+		String actual = "";
+		for (int i=0; i<plainText.length(); i++){
+			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
+		}
+		System.out.println(plainText + " has been encrypted to: " + actual);
+		assertEquals("These two strings don't match!", expected, actual);
+	}
+	
+	
+	
 	
 	public void testGetIndicators(){
 		testEnigma.setWheelOrder(1,2,3);

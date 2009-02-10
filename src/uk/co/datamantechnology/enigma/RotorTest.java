@@ -35,11 +35,11 @@ public class RotorTest extends TestCase {
 
 		testRotor.setCurrentPosition('D');
 
-		expected = 'H';
+		expected = 'E';
 		actual = testRotor.encrypt('A');
 		assertEquals(expected, actual);
 
-		expected = 'T';
+		expected = 'Q';
 		actual = testRotor.encrypt('G');
 		assertEquals(expected, actual);
 
