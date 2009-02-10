@@ -53,13 +53,27 @@ public class EnigmaMachineTest extends TestCase {
 		
 	}
 	
+	public void testGetIndicators(){
+		testEnigma.setWheelOrder(1,2,3);
+		testEnigma.setIndicators("AAA");
+		assertEquals("getIndicators ain't working","AAA",testEnigma.getIndicators());
+		testEnigma.setIndicators("CGF");
+		assertEquals("getIndicators ain't working","CGF",testEnigma.getIndicators());
+	}
+	
+	
 	public void testRotation() {
 //		To see the anomaly in action, fit the rotors in the order 1,2,3 and set the indicators to 'EDV' 
-//		(The ring settings dont matter as the turnover mechanism is on the alphabet rings, not the wheel cores). 
+//		(The ring settings don't matter as the turnover mechanism is on the alphabet rings, not the wheel cores). 
 //		The first keystroke should move the indicator to 'EEW' and the next should move all 3 rotors, 
 //		resulting in an indicator of 'FFX'. 
 		
-			
+		testEnigma.setWheelOrder(1,2,3);
+		testEnigma.setIndicators("EDV");
+		testEnigma.encrypt('A');
+		assertEquals("Rotation isn't working!","EEW",testEnigma.getIndicators());
+		testEnigma.encrypt('B');
+		assertEquals("Rotation isn't working!","FFX",testEnigma.getIndicators());
 		
 	}
 

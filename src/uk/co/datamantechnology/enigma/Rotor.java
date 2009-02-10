@@ -14,6 +14,7 @@ public class Rotor {
 	public Rotor(int rotorNumber) {
 		setNotch(cfg.getNotches()[rotorNumber-1]);
 		setWiring(cfg.getRotorWirings()[rotorNumber-1]);
+		setCurrentPosition(0);
 	}
 
 	public Rotor(String wiring, char notch) {
@@ -28,6 +29,10 @@ public class Rotor {
 
 	public void setCurrentPosition(char letter) {
 		setCurrentPosition((int)letter-65);
+	}
+	
+	public char getIndicator(){
+		return (char)(getCurrentPosition()+65);
 	}
 
 	public String getWiring() {
@@ -61,8 +66,10 @@ public class Rotor {
 			letterIndex = (letterIndex + this.currentPosition) % NUMBER_OF_LETTERS_IN_ALPHABET;
 			System.out.print(clearCharacter + " offset to " + (char)(letterIndex +65) + " encrypted to "
 					+ encryptedCharacter + " with offset");
+			
 			letterIndex = (int) encryptedCharacter - 65;
-			letterIndex = ((letterIndex - this.currentPosition) % NUMBER_OF_LETTERS_IN_ALPHABET) + 65;
+			letterIndex = ((NUMBER_OF_LETTERS_IN_ALPHABET + letterIndex - this.currentPosition) % NUMBER_OF_LETTERS_IN_ALPHABET) + 65;
+			System.out.println("\n\tLetterIndex of encrypted cahr with offset :  " + letterIndex + "\n");
 			encryptedCharacter = (char) letterIndex;
 			System.out.println(" passed on to position " + encryptedCharacter);
 		} else {
@@ -116,7 +123,8 @@ public class Rotor {
 	}
 
 	public boolean isAtNotchPosition() {
-		return (this.currentPosition == getPositionOfLetter(notch));
+		System.out.println("The currentPosition is : " + this.currentPosition + " (" + getIndicator() + ")");
+		return (this.currentPosition == (int)(notch-65));
 	}
 
 }

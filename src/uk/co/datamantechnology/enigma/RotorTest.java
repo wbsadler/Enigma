@@ -108,5 +108,25 @@ public class RotorTest extends TestCase {
 
 	}
 
-
+	
+	public void testGetIndicator(){
+		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+		
+		testRotor.setCurrentPosition('D');
+		assertEquals("getIndicator ain't working!",'D',testRotor.getIndicator());
+	}
+	
+	public void testIsAtNotchPosition(){
+		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+		for (int i = 0; i < 26; i++){
+			if (i == 21){
+				assertTrue("isAtNotchPosition is faulty! (" + i + ")",testRotor.isAtNotchPosition());
+			}else{
+				assertTrue("isAtNotchPosition is faulty! (" + i + ")",!testRotor.isAtNotchPosition());	
+			}
+			testRotor.advance();
+		}
+	}
+	                   
+	
 }

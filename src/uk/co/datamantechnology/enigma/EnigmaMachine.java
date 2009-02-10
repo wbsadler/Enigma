@@ -17,6 +17,11 @@ public class EnigmaMachine {
 		System.out.println("We've setup the rotors!");
 	}
 	
+	private void setUp() {
+		this.rotors = new Rotor[getNumberOfRotors()];
+		this.wheelOrder = new int[getNumberOfRotors()];
+		this.reflector = new Reflector(1); // choosing the B reflector;
+	}
 	
 	public void setWheelOrder(int rotor1, int rotor2, int rotor3) {
 		// TODO: refactor to be able to deal with more any number of rotors
@@ -26,6 +31,11 @@ public class EnigmaMachine {
 		selectRotor(2, rotor1);
 		selectRotor(1, rotor2);
 		selectRotor(0, rotor3);
+	}
+	
+	private void selectRotor(int wheelOrderPosition, int rotorNumber) {
+		wheelOrder[wheelOrderPosition] = rotorNumber - 1;
+		this.rotors[wheelOrderPosition] = new Rotor(rotorNumber);
 	}
 
 	public void moveRotor(int rotor, String direction) {
@@ -42,20 +52,28 @@ public class EnigmaMachine {
 		}
 	}
 
+	public String getIndicators(){
+		String returnString = "";
+		for (int i = getNumberOfRotors()-1; i >= 0 ; i--) {
+			returnString+= getIndicator(i);
+		}
+		return returnString;
+	}
+
 	public char encrypt(char clearText) {
 		char encypheredChar = clearText;
 		// move the rotors on one
 		advanceRotors();
 		// go through the rotors in acsending order (encypher)
 		for (int i = 0; i < getNumberOfRotors(); i++) {
-			encypheredChar = this.rotors[this.wheelOrder[i]].encrypt(encypheredChar);
+			encypheredChar = this.rotors[i].encrypt(encypheredChar);
 		}
 		// go through the reflector
 		encypheredChar = reflector.reflect(encypheredChar);
 
 		// go back through the rotors in descending order (decypher)
 		for (int i = getNumberOfRotors() - 1; i >= 0; i--) {
-			encypheredChar = this.rotors[wheelOrder[i]].decrypt(encypheredChar);
+			encypheredChar = this.rotors[i].decrypt(encypheredChar);
 		}
 
 		// return encrypted character
@@ -64,15 +82,26 @@ public class EnigmaMachine {
 
 	private void advanceRotors() {
 		List<Integer> rotorsToAdvance = new ArrayList<Integer>();
+		
+		System.out.println("\nADVANCING ROTORS");
 		// check for notch positions
 		for (int i = 0; i < getNumberOfRotors(); i++) {
+			
+			System.out.println("\nchecking i : " + i);
 			// right hand rotor moves on one postion every time;
-			// if preceding rotor is at notch position then it also moves on
-			if (i == 0 || this.rotors[wheelOrder[i - 1]].isAtNotchPosition())
+			if (i == 0){
 				rotorsToAdvance.add(i);
+			// if preceding rotor is at notch position then this rotor moves on
+			}else if (this.rotors[i - 1].isAtNotchPosition()){
+				System.out.println("\n Previous rotor at notch position");
+				rotorsToAdvance.add(i);
+			} else if (this.rotors[i].isAtNotchPosition() && i < (getNumberOfRotors()-1)){
+				rotorsToAdvance.add(i);	
+			}
 		}
 		for (int i = 0; i < rotorsToAdvance.size(); i++) {
-			this.rotors[wheelOrder[rotorsToAdvance.get(i)]].advance();
+			System.out.println("\nAdvancing rotor: " + rotorsToAdvance.get(i) + "\n\n");
+			this.rotors[rotorsToAdvance.get(i)].advance();
 		}
 	}
 
@@ -84,26 +113,17 @@ public class EnigmaMachine {
 		// TODO Auto-generated method stub
 	}
 
-	private void selectRotor(int wheelOrderPosition, int rotorNumber) {
-		wheelOrder[wheelOrderPosition] = rotorNumber - 1;
-		this.rotors[rotorNumber -1] = new Rotor(rotorNumber);
-	}
-
 	private void setIndicator(int rotor, char letter) {
 		System.out.println("Setting indicator on rotor " + rotor + " to "
 				+ letter);
-		this.rotors[wheelOrder[rotor]].setCurrentPosition(letter);
+		this.rotors[rotor].setCurrentPosition(letter);
 	}
 
-	private void setUp() {
-		this.rotors = new Rotor[getNumberOfRotors()];
-		this.wheelOrder = new int[getNumberOfRotors()];
-		this.reflector = new Reflector(1); // choosing the B reflector;
-		setWheelOrder(1, 2, 3); // just to get it up and running
-		setIndicators("ABC");
+	private char getIndicator(int rotor) {
+		return this.rotors[rotor].getIndicator();
 	}
-
-
+	
+	
 	public void setNumberOfRotors(int numberOfRotors) {
 		this.numberOfRotors = numberOfRotors;
 	}
