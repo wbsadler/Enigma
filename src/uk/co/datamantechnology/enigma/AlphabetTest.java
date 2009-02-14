@@ -19,27 +19,27 @@ public class AlphabetTest extends TestCase {
 	public void testGoForwardThroughAlphabet() {
 		
 		char expected = 'A';
-		char actual = Alphabet.goForwardThroughAlphabet('Z');
+		char actual = Alphabet.goForwards('Z');
 		assertEquals(expected, actual);
 
 		expected = 'B';
-		actual = Alphabet.goForwardThroughAlphabet('A');
+		actual = Alphabet.goForwards('A');
 		assertEquals(expected, actual);
 
 		expected = 'H';
-		actual = Alphabet.goForwardThroughAlphabet('G');
+		actual = Alphabet.goForwards('G');
 		assertEquals(expected, actual);
 
 		expected = 'Z';
-		actual = Alphabet.goForwardThroughAlphabet('Y');
+		actual = Alphabet.goForwards('Y');
 		assertEquals(expected, actual);
 		
 		expected = 'E';
-		actual = Alphabet.goForwardThroughAlphabet('A',4);
+		actual = Alphabet.goForwards('A',4);
 		assertEquals(expected, actual);
 		
 		expected = 'L';
-		actual = Alphabet.goForwardThroughAlphabet('A',11);
+		actual = Alphabet.goForwards('A',11);
 		assertEquals(expected, actual);
 		
 	}
@@ -47,34 +47,78 @@ public class AlphabetTest extends TestCase {
 	public void testGoBackThroughAlphabet() {
 		
 		char expected = 'Y';
-		char actual = Alphabet.goBackThroughAlphabet('Z');
+		char actual = Alphabet.goBackwards('Z');
 		assertEquals(expected, actual);
 
 		expected = 'B';
-		actual = Alphabet.goBackThroughAlphabet('C');
+		actual = Alphabet.goBackwards('C');
 		assertEquals(expected, actual);
 
 		expected = 'H';
-		actual = Alphabet.goBackThroughAlphabet('I');
+		actual = Alphabet.goBackwards('I');
 		assertEquals(expected, actual);
 
 		expected = 'Z';
-		actual = Alphabet.goBackThroughAlphabet('A');
+		actual = Alphabet.goBackwards('A');
 		assertEquals(expected, actual);
 		
 		expected = 'W';
-		actual = Alphabet.goBackThroughAlphabet('A',4);
+		actual = Alphabet.goBackwards('A',4);
 		assertEquals(expected, actual);
 		
 		expected = 'L';
-		actual = Alphabet.goBackThroughAlphabet('W',11);
+		actual = Alphabet.goBackwards('W',11);
 		assertEquals(expected, actual);
 		
 		expected = 'A';
-		actual = Alphabet.goBackThroughAlphabet('A',0);
+		actual = Alphabet.goBackwards('A',0);
 		assertEquals(expected, actual);
 		
 	}
 
+	public void testToLetterIndex(){
+		int expected = 0;
+		int actual = Alphabet.toLetterIndex('A');
+		assertEquals(expected, actual);
+		
+		expected = 1;
+		actual = Alphabet.toLetterIndex('B');
+		assertEquals(expected, actual);
+		
+		expected = 25;
+		actual = Alphabet.toLetterIndex('Z');
+		assertEquals(expected, actual);
+		
+	}
+	
+	public void testToLetter(){
+		char expected = 'A';
+		char actual = Alphabet.toLetter(0);
+		assertEquals(expected,actual);
+		
+		expected = 'M';
+		actual = Alphabet.toLetter(12);
+		assertEquals(expected,actual);
+		
+		expected = 'Z';
+		actual = Alphabet.toLetter(25);
+		assertEquals(expected,actual);
+	}
 
+	
+	public void testGoForwards(){
+		int expected = 1;
+		int actual = Alphabet.goForwards(0,1);
+		assertEquals(expected,actual);
+		
+		expected = 3;
+		actual = Alphabet.goForwards(25,4);
+		assertEquals(expected,actual);
+		
+		expected = 24;
+		actual = Alphabet.goForwards(0,-2);
+		assertEquals(expected,actual);
+	}
+	
+	
 }

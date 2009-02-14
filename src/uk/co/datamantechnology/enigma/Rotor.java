@@ -6,7 +6,6 @@ public class Rotor {
 	private static Configuration cfg = new Configuration();
 
 	public static final int NUMBER_OF_LETTERS_IN_ALPHABET = 26;
-	public static final int ASCII_A = 65;
 
 	private String wiring; // scrambled alphabet
 	private int currentPosition; // the position relative to the wiring
@@ -32,7 +31,8 @@ public class Rotor {
 	}
 
 	private void setCurrentPosition(char letter) {
-		setCurrentPosition((int) Alphabet.goBackThroughAlphabet(letter,getRingSetting()) - ASCII_A);	
+		char currentLetter = Alphabet.goBackwards(letter,getRingSetting());
+		setCurrentPosition(Alphabet.toLetterIndex(currentLetter));
 	}
 	
 	private void setCurrentPosition(int position) {
@@ -40,7 +40,7 @@ public class Rotor {
 	}
 	
 	public void setRingSetting(char letter){
-		setRingSetting((int)letter-ASCII_A);
+		setRingSetting(Alphabet.toLetterIndex(letter));
 	}
 	
 	private void setRingSetting(int position){
@@ -52,7 +52,8 @@ public class Rotor {
 	}
 		
 	public char getIndicator(){
-		return Alphabet.goForwardThroughAlphabet((char)(getCurrentPosition()+ASCII_A), getRingSetting());
+		char currentLetter = Alphabet.toLetter(getCurrentPosition());
+		return Alphabet.goForwards(currentLetter, getRingSetting());
 	}
 
 	public String getWiring() {
@@ -72,43 +73,38 @@ public class Rotor {
 	}
 		
 	public char getAdjustedNotch(){
-		return Alphabet.goBackThroughAlphabet(getNotch(), getRingSetting());
+		return Alphabet.goBackwards(getNotch(), getRingSetting());
 	}
 	
 	public int getAdjustedNotchPosition(){
-		return (int)getAdjustedNotch()-ASCII_A;
+		return Alphabet.toLetterIndex(getAdjustedNotch());
 	}
 
 
 	public char encrypt(char clearCharacter) {
 		char encryptedCharacter;
-		int letterIndex = (int) clearCharacter - ASCII_A;
-		// encrypt the character taking into account the current 
+		int letterIndex = Alphabet.toLetterIndex(clearCharacter);
+		// encrypt the character taking into account the current position of the rotor  
 		encryptedCharacter = getLetterAtPosition(letterIndex);
 		// take care of the offset
-		if (getCurrentPosition() > 0) {			 
-			letterIndex = (letterIndex + getCurrentPosition()) % NUMBER_OF_LETTERS_IN_ALPHABET;
-			letterIndex = (int) encryptedCharacter - ASCII_A;
-			letterIndex = ((NUMBER_OF_LETTERS_IN_ALPHABET + letterIndex - getCurrentPosition()) % NUMBER_OF_LETTERS_IN_ALPHABET) + ASCII_A;
-			encryptedCharacter = (char) letterIndex;
+		if (getCurrentPosition() > 0) { 
+			letterIndex = Alphabet.toLetterIndex(encryptedCharacter);
+			letterIndex = Alphabet.goBackwards(letterIndex,getCurrentPosition()); 
+			encryptedCharacter = Alphabet.toLetter(letterIndex);
 		} 
 		return encryptedCharacter;
 	}
 
-	public char decrypt(char encryptedChar) {
-		char decryptedChar;
+	public char decrypt(char encryptedLetter) {
+		char decryptedLetter;
+		// get position of letter taking into account the current position of the rotor
+		int decryptedLetterIndex = getPositionOfLetter(encryptedLetter);
+		decryptedLetter = Alphabet.toLetter(decryptedLetterIndex);
+		// re-adjust output for any offset
 		if (getCurrentPosition() > 0) {
-			// get the offset character
-			char offsetCharacter = Alphabet.goForwardThroughAlphabet(encryptedChar, getCurrentPosition());
-			int decryptedCharAscii = getPositionOfLetter(offsetCharacter) + ASCII_A;
-			decryptedChar = (char) (decryptedCharAscii);
-			// readjusting output for offset - move back through the alphabet
-			decryptedChar = Alphabet.goBackThroughAlphabet(decryptedChar, getCurrentPosition()); 
-		} else {
-			int decryptedCharAsciiValue = getPositionOfLetter(encryptedChar) + ASCII_A;
-			decryptedChar = (char) decryptedCharAsciiValue;
+			decryptedLetter = Alphabet.goBackwards(decryptedLetter, getCurrentPosition()); 
 		}		
-		return decryptedChar;
+		return decryptedLetter;
 	}
 	
 	private char getLetterAtPosition(int letterIndex){
@@ -117,7 +113,9 @@ public class Rotor {
 	}
 
 	private int getPositionOfLetter(char character){
-		int wiringIndex = this.wiring.indexOf(character);
+		// get the offset character
+		char offsetCharacter = Alphabet.goForwards(character, getCurrentPosition());
+		int wiringIndex = this.wiring.indexOf(offsetCharacter);
 		return wiringIndex;
 	}
 	
