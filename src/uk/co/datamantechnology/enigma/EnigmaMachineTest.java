@@ -27,12 +27,7 @@ public class EnigmaMachineTest extends TestCase {
 		testEnigma.setIndicators("AAA");
 //		Steckers:           None
 			
-		String actual = "";
-		
-		for (int i=0; i<plainText.length(); i++){
-			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
-		}
-		
+		String actual = testEnigma.encrypt(plainText);		
 		assertEquals("These two strings don't match!", expected, actual);
 
 //		With the rotors I, II and III (from left to right), wide B-reflector, all ring settings in A-position, and start position AAA, typing AAAAA will produce the encoded sequence BDZGO.
@@ -41,35 +36,18 @@ public class EnigmaMachineTest extends TestCase {
 		testEnigma.setIndicators("AAA");
 		plainText = "AAAAA";
 		expected = "BDZGO";
-		actual = "";
-		
-		for (int i=0; i<plainText.length(); i++){
-			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
-		}
-		
+		actual = testEnigma.encrypt(plainText);
 		System.out.println(plainText + " has been encrypted to: " + actual);
-		
 		assertEquals("These two strings don't match!", expected, actual);
 		
 		// another encryption with different rotors
-		
 		testEnigma.setWheelOrder(3,4,5);
 		testEnigma.setIndicators("AAA");
 		plainText = "AAAAA";
 		expected = "HNYNU";
-		actual = "";
-		
-		for (int i=0; i<plainText.length(); i++){
-			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
-		}
-		
+		actual = testEnigma.encrypt(plainText);
 		System.out.println(plainText + " has been encrypted to: " + actual);
-		
 		assertEquals("These two strings don't match!", expected, actual);
-		
-		// another "random" set u
-		
-		
 	}
 	
 	public void testEncrypt2() {
@@ -78,16 +56,9 @@ public class EnigmaMachineTest extends TestCase {
 		testEnigma.setIndicators("AAZ");
 		String plainText = "G";
 		String expected = "P";
-		String actual = "";
-		
-		for (int i=0; i<plainText.length(); i++){
-			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
-		}
-		
+		String actual = testEnigma.encrypt(plainText);
 		System.out.println(plainText + " has been encrypted to: " + actual);
-		
 		assertEquals("These two strings don't match!", expected, actual);
-		
 	}
 	
 	public void testEncrypt3(){
@@ -98,18 +69,10 @@ public class EnigmaMachineTest extends TestCase {
 //		String plainText = "AAAAAAAAAAAAAAAAAAAAAAAAA";
 		String expected = "YLOCX";
 //		String expected = "DCVJJFXFKPVMSOQPCPYRHNJVT";
-		String actual = "";
-		
-		for (int i=0; i<plainText.length(); i++){
-			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
-		}
-		
+		String actual = testEnigma.encrypt(plainText);
 		System.out.println(plainText + " has been encrypted to: " + actual);
-		
 		assertEquals("These two strings don't match!", expected, actual);
-	
 	}
-	
 	
 	public void testEncrypt4(){
 		testEnigma.setWheelOrder(2,3,4);
@@ -124,6 +87,54 @@ public class EnigmaMachineTest extends TestCase {
 		assertEquals("These two strings don't match!", expected, actual);
 	}
 	
+//	
+//	Now you can try decrypting an actual German message using the German Enigma machine that was used by 'Hester', played by Kate Winslet, in the film Enigma.
+//
+//	The Enigma configuration for that day was:
+//	IV II V | GMY | DN GR IS KC QX TM PV HY FW BJ |
+//	and here is the intercepted message:
+//	U8K DE C 1806 = 49 = DHO GXS =
+//	NQVLT YQFSE WWGJZ GQHVS EIXIM YKCNW IEBMB ATPPZ TDVCU PKAY-
+//
+//	Click here and you will be taken to Tony Sale's on-line Enigma simulator where you can decrypt this message.
+//
+//	For full information about Tony Sale's work for the film Enigma go to these pages.
+//	
+	
+	public void testEncrypt5(){
+		testEnigma.setWheelOrder(4,2,5);
+		testEnigma.setRingSettings("GMY");
+		testEnigma.setIndicators("DHO");
+		testEnigma.setSteckerPairings("DNGRISKCQXTMPVHYFWBJ");
+		String plainText = "GXS";
+		String expected = "RLP";
+		String actual = testEnigma.encrypt(plainText);
+		
+		System.out.println(plainText + " has been encrypted to: " + actual);		
+		assertEquals("These two strings don't match!", expected, actual);
+	
+		testEnigma.setIndicators("RLP");
+		plainText = "NQVLTYQFSEWWGJZGQHVSEIXIMYKCNWIEBMBATPPZTDVCUPKAY";
+//		NQVLT YQFSE WWGJZ GQHVS EIXIM YKCNW IEBMB ATPPZ TDVCU PKAY
+//		NQVLT YQFSE WWGJZ GQHVS EIXIM YCKNW IEBMB ATPPZ TDVCU PKAY
+		
+//		FLUGZ EUGFU EHRER ISTOF WYYXF UFHLG RAFXF UELLG PAFXP OFOP		
+//		FLUGZEUG FUEHRER IST OF WYY X FUFHLG RAF X FUELLGPAF X POFOP
+		
+		expected = "FLUGZEUGFUEHRERISTOFWYYXFUFHLGRAFXFUELLGPAFXPOFOP";
+		actual = testEnigma.encrypt(plainText);
+		
+		System.out.println(plainText + " has been encrypted to: " + actual);		
+		assertEquals("Full encryption ain't working!",expected,actual);
+		
+		// now try encyphering...
+		testEnigma.setIndicators("RLP");
+		plainText = actual.toString();
+		expected = "NQVLTYQFSEWWGJZGQHVSEIXIMYKCNWIEBMBATPPZTDVCUPKAY";
+		actual = testEnigma.encrypt(plainText);
+		System.out.println(plainText + " has been encrypted to: " + actual);
+				
+	}
 	
 	
 	

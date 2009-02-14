@@ -10,6 +10,7 @@ public class EnigmaMachine {
 						// 2,1,0
 	private Reflector reflector;
 	private Rotor rotors[];
+	private Stecker stecker;
 
 	public EnigmaMachine() {
 		System.out.println("We're starting...");
@@ -21,6 +22,21 @@ public class EnigmaMachine {
 		this.rotors = new Rotor[getNumberOfRotors()];
 		this.wheelOrder = new int[getNumberOfRotors()];
 		this.reflector = new Reflector(1); // choosing the B reflector;
+		this.stecker = new Stecker();
+	}
+	
+	public void setRingSettings(String ringSettings){
+		for (int i=0; i < ringSettings.length(); i++){
+			this.setRingSetting(ringSettings.length()-i-1,ringSettings.charAt(i));
+		}		
+	}
+	
+	public void setRingSetting(int rotorNumber, char letter){
+		this.rotors[rotorNumber].setRingSetting(letter);
+	}
+	
+	public void setSteckerPairings(String pairings){
+		this.stecker.setPairings(pairings);
 	}
 	
 	public void setWheelOrder(int rotor1, int rotor2, int rotor3) {
@@ -59,9 +75,21 @@ public class EnigmaMachine {
 		}
 		return returnString;
 	}
+	
+	public String encrypt(String plainText){
+		StringBuilder encypheredText = new StringBuilder();
+		for (int i=0; i<plainText.length(); i++){
+			encypheredText.append(encrypt(plainText.charAt(i)));			
+		}
+		return encypheredText.toString();
+	}
 
 	public char encrypt(char clearText) {
 		char encypheredChar = clearText;
+		
+		// go through the stecker		
+		encypheredChar = this.stecker.encrypt(clearText);
+		
 		// move the rotors on one
 		advanceRotors();
 		// go through the rotors in acsending order (encypher)
@@ -75,6 +103,9 @@ public class EnigmaMachine {
 		for (int i = getNumberOfRotors() - 1; i >= 0; i--) {
 			encypheredChar = this.rotors[i].decrypt(encypheredChar);
 		}
+		
+		// go back trhough the Stecker
+		encypheredChar = this.stecker.encrypt(encypheredChar);
 
 		// return encrypted character
 		return encypheredChar;
@@ -106,17 +137,17 @@ public class EnigmaMachine {
 	}
 
 	private void moveRotorUp(int rotor) {
-		// TODO Auto-generated method stub
+		rotors[rotor].advance();
 	}
 
 	private void moveRotorDown(int rotor) {
-		// TODO Auto-generated method stub
+		rotors[rotor].goBack();
 	}
 
 	private void setIndicator(int rotor, char letter) {
 		System.out.println("Setting indicator on rotor " + rotor + " to "
 				+ letter);
-		this.rotors[rotor].setCurrentPosition(letter);
+		this.rotors[rotor].setIndicator(letter);		
 	}
 
 	private char getIndicator(int rotor) {

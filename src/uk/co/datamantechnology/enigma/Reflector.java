@@ -16,7 +16,6 @@ public class Reflector {
 	}
 	
 	public void loadWiring(String wiring) {
-		// TODO Auto-generated method stub
 		this.wiring = wiring;
 	}
 	

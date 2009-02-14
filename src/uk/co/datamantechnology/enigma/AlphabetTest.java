@@ -70,6 +70,10 @@ public class AlphabetTest extends TestCase {
 		actual = Alphabet.goBackThroughAlphabet('W',11);
 		assertEquals(expected, actual);
 		
+		expected = 'A';
+		actual = Alphabet.goBackThroughAlphabet('A',0);
+		assertEquals(expected, actual);
+		
 	}
 
 

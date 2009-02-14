@@ -13,6 +13,7 @@ public class AllTests {
 		suite.addTestSuite(RotorTest.class);
 		suite.addTestSuite(EnigmaMachineTest.class);
 		suite.addTestSuite(ConfigurationTest.class);
+		suite.addTestSuite(SteckerTest.class);
 		//$JUnit-END$
 		return suite;
 	}

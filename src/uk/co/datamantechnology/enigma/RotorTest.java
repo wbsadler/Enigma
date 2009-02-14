@@ -15,6 +15,12 @@ public class RotorTest extends TestCase {
 	public void ensureThatSetWiringAcceptsNoStringWithDuplicates() {
 		// TODO: implement test
 	}
+	
+	public void testGetCurrentPosition(){
+		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+		assertTrue(testRotor.getCurrentPosition()>-1);
+		assertTrue(testRotor.getCurrentPosition()<26);		
+	}
 
 	public void testEncrypt() {
 		// Rotor I - rotors[0]
@@ -33,7 +39,7 @@ public class RotorTest extends TestCase {
 		actual = testRotor.encrypt('Z');
 		assertEquals(expected, actual);
 
-		testRotor.setCurrentPosition('D');
+		testRotor.setIndicator('D');
 
 		expected = 'E';
 		actual = testRotor.encrypt('A');
@@ -43,7 +49,7 @@ public class RotorTest extends TestCase {
 		actual = testRotor.encrypt('G');
 		assertEquals(expected, actual);
 
-		testRotor.setCurrentPosition('A');
+		testRotor.setIndicator('A');
 
 		testRotor.advance();
 		expected = 'C';
@@ -64,8 +70,6 @@ public class RotorTest extends TestCase {
 		expected = 'L';
 		actual = testRotor.encrypt('D');
 		assertEquals(expected, actual);
-		
-		
 	}
 
 	public void testDecrypt() {
@@ -100,33 +104,82 @@ public class RotorTest extends TestCase {
 		actual = testRotor.decrypt('M');
 		assertEquals(expected, actual);
 		
-		testRotor.setCurrentPosition('G');
+		testRotor.setIndicator('G');
 		testRotor.advance();
 		expected = 'Z';
  		actual = testRotor.decrypt('V');
 		assertEquals(expected, actual);
-
+		
+		
+	}
+	
+	public void testDecryptWithRingSetting(){
+		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+		
+		testRotor.setRingSetting('B');
+		testRotor.setIndicator('A');
+		char expected = 'U';
+		char actual = testRotor.decrypt('B');
+		assertEquals("testDecryptWithRingSetting",expected, actual);
+		
+		expected = 'C';
+		actual = testRotor.decrypt('E');
+		assertEquals(expected, actual);
+		
 	}
 
 	
 	public void testGetIndicator(){
-		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
-		
-		testRotor.setCurrentPosition('D');
+		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');		
+		testRotor.setIndicator('D');
 		assertEquals("getIndicator ain't working!",'D',testRotor.getIndicator());
 	}
 	
 	public void testIsAtNotchPosition(){
 		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+		assertEquals("Notch has not been set to initial value!",'V',testRotor.getAdjustedNotch());
 		for (int i = 0; i < 26; i++){
 			if (i == 21){
-				assertTrue("isAtNotchPosition is faulty! (" + i + ")",testRotor.isAtNotchPosition());
+				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i + ")",testRotor.isAtNotchPosition());
 			}else{
-				assertTrue("isAtNotchPosition is faulty! (" + i + ")",!testRotor.isAtNotchPosition());	
+				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i + ")",!testRotor.isAtNotchPosition());	
+			}
+			testRotor.advance();
+		}
+		testRotor.setRingSetting('B');
+		testRotor.setIndicator('A');
+		for (int i = 0; i < 26; i++){
+			System.out.println("indicator : " + testRotor.getIndicator());
+			System.out.println("i : " + i);
+			
+			if (i == 20){
+				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i + ")",testRotor.isAtNotchPosition());
+			}else{
+				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i+ ")",!testRotor.isAtNotchPosition());	
 			}
 			testRotor.advance();
 		}
 	}
 	                   
-	
+	public void testSetRingSetting(){
+		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+		testRotor.setRingSetting('A');
+		testRotor.setIndicator('A');
+		assertEquals("setRingSetting isn't working!",'A',testRotor.getIndicator());
+		testRotor.setRingSetting('B');
+		assertEquals("Notch has not been moved back one!",'U',testRotor.getAdjustedNotch());
+		testRotor.setRingSetting('D');
+		assertEquals("Notch has not been moved back three!",'S',testRotor.getAdjustedNotch());
+		testRotor.setRingSetting('C');
+		assertEquals("Notch has not been moved back two!",'T',testRotor.getAdjustedNotch());
+		testRotor.setRingSetting('B');
+		testRotor.setIndicator('A');
+		assertEquals("setRingSetting isn't working!",'A',testRotor.getIndicator());
+		assertEquals("encrypt isn't responding to ringSetting properly!",'P',testRotor.encrypt('A'));		
+		testRotor.setIndicator('A');
+		assertEquals("setRingSetting isn't working!",'A',testRotor.getIndicator());
+		assertEquals("encrypt isn't responding to ringSetting properly!",'C',testRotor.encrypt('B'));
+		
+		// TODO: test that the notch position is revised on the ring setting! 
+	}
 }
