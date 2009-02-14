@@ -37,7 +37,6 @@ public class EnigmaMachineTest extends TestCase {
 		plainText = "AAAAA";
 		expected = "BDZGO";
 		actual = testEnigma.encrypt(plainText);
-		System.out.println(plainText + " has been encrypted to: " + actual);
 		assertEquals("These two strings don't match!", expected, actual);
 		
 		// another encryption with different rotors
@@ -46,7 +45,6 @@ public class EnigmaMachineTest extends TestCase {
 		plainText = "AAAAA";
 		expected = "HNYNU";
 		actual = testEnigma.encrypt(plainText);
-		System.out.println(plainText + " has been encrypted to: " + actual);
 		assertEquals("These two strings don't match!", expected, actual);
 	}
 	
@@ -57,7 +55,6 @@ public class EnigmaMachineTest extends TestCase {
 		String plainText = "G";
 		String expected = "P";
 		String actual = testEnigma.encrypt(plainText);
-		System.out.println(plainText + " has been encrypted to: " + actual);
 		assertEquals("These two strings don't match!", expected, actual);
 	}
 	
@@ -70,7 +67,6 @@ public class EnigmaMachineTest extends TestCase {
 		String expected = "YLOCX";
 //		String expected = "DCVJJFXFKPVMSOQPCPYRHNJVT";
 		String actual = testEnigma.encrypt(plainText);
-		System.out.println(plainText + " has been encrypted to: " + actual);
 		assertEquals("These two strings don't match!", expected, actual);
 	}
 	
@@ -83,7 +79,6 @@ public class EnigmaMachineTest extends TestCase {
 		for (int i=0; i<plainText.length(); i++){
 			actual = actual + testEnigma.encrypt(plainText.charAt(i));			
 		}
-		System.out.println(plainText + " has been encrypted to: " + actual);
 		assertEquals("These two strings don't match!", expected, actual);
 	}
 	
@@ -109,8 +104,6 @@ public class EnigmaMachineTest extends TestCase {
 		String plainText = "GXS";
 		String expected = "RLP";
 		String actual = testEnigma.encrypt(plainText);
-		
-		System.out.println(plainText + " has been encrypted to: " + actual);		
 		assertEquals("These two strings don't match!", expected, actual);
 	
 		testEnigma.setIndicators("RLP");
@@ -118,13 +111,16 @@ public class EnigmaMachineTest extends TestCase {
 //		NQVLT YQFSE WWGJZ GQHVS EIXIM YKCNW IEBMB ATPPZ TDVCU PKAY
 //		NQVLT YQFSE WWGJZ GQHVS EIXIM YCKNW IEBMB ATPPZ TDVCU PKAY
 		
-//		FLUGZ EUGFU EHRER ISTOF WYYXF UFHLG RAFXF UELLG PAFXP OFOP		
+//		FLUGZEUGFUEHRERISTOFWYYXFUELLGRAFXFUELLGPAFXPOFOP
+		
+//		FLUGZ EUGFU EHRER ISTOF WYYXF UFHLG RAFXF UELLG PAFXP OFOP
+//		FLUGZEUG FUEHRER IST OFW - X FUELLGRAF X FUELLGPAF X POFOP
 //		FLUGZEUG FUEHRER IST OF WYY X FUFHLG RAF X FUELLGPAF X POFOP
 		
-		expected = "FLUGZEUGFUEHRERISTOFWYYXFUFHLGRAFXFUELLGPAFXPOFOP";
+//		FLUGZ EUGFU EHRER ISTOF WYYXF UELLG RAFXF UELLG PAFXP OFOP
+//		
+		expected = "FLUGZEUGFUEHRERISTOFWYYXFUELLGRAFXFUELLGPAFXPOFOP";
 		actual = testEnigma.encrypt(plainText);
-		
-		System.out.println(plainText + " has been encrypted to: " + actual);		
 		assertEquals("Full encryption ain't working!",expected,actual);
 		
 		// now try encyphering...
@@ -132,8 +128,6 @@ public class EnigmaMachineTest extends TestCase {
 		plainText = actual.toString();
 		expected = "NQVLTYQFSEWWGJZGQHVSEIXIMYKCNWIEBMBATPPZTDVCUPKAY";
 		actual = testEnigma.encrypt(plainText);
-		System.out.println(plainText + " has been encrypted to: " + actual);
-				
 	}
 	
 	

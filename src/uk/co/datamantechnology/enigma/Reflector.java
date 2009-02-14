@@ -21,7 +21,6 @@ public class Reflector {
 	
 	public char reflect(char entryLetter){
 		int letterIndex = (int) entryLetter - 65;
-		System.out.println(entryLetter + " is reflected to " + this.wiring.charAt(letterIndex));
 		return this.wiring.charAt(letterIndex);
 	}
 

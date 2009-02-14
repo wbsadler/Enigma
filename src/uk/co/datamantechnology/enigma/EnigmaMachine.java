@@ -13,9 +13,7 @@ public class EnigmaMachine {
 	private Stecker stecker;
 
 	public EnigmaMachine() {
-		System.out.println("We're starting...");
 		setUp();
-		System.out.println("We've setup the rotors!");
 	}
 	
 	private void setUp() {
@@ -41,9 +39,6 @@ public class EnigmaMachine {
 	
 	public void setWheelOrder(int rotor1, int rotor2, int rotor3) {
 		// TODO: refactor to be able to deal with more any number of rotors
-		System.out.println("Setting Rotor 2 to " + rotor1);
-		System.out.println("Setting Rotor 1 to " + rotor2);
-		System.out.println("Setting Rotor 0 to " + rotor3);
 		selectRotor(2, rotor1);
 		selectRotor(1, rotor2);
 		selectRotor(0, rotor3);
@@ -77,10 +72,12 @@ public class EnigmaMachine {
 	}
 	
 	public String encrypt(String plainText){
+		System.out.println("Encrypting: " + plainText);
 		StringBuilder encypheredText = new StringBuilder();
 		for (int i=0; i<plainText.length(); i++){
 			encypheredText.append(encrypt(plainText.charAt(i)));			
 		}
+		System.out.println("Encyphered text : " + encypheredText.toString());
 		return encypheredText.toString();
 	}
 
@@ -107,31 +104,26 @@ public class EnigmaMachine {
 		// go back trhough the Stecker
 		encypheredChar = this.stecker.encrypt(encypheredChar);
 
+		System.out.println(clearText + " " + encypheredChar + " " + getIndicators());
 		// return encrypted character
 		return encypheredChar;
 	}
 
 	private void advanceRotors() {
 		List<Integer> rotorsToAdvance = new ArrayList<Integer>();
-		
-		System.out.println("\nADVANCING ROTORS");
 		// check for notch positions
 		for (int i = 0; i < getNumberOfRotors(); i++) {
-			
-			System.out.println("\nchecking i : " + i);
 			// right hand rotor moves on one postion every time;
 			if (i == 0){
 				rotorsToAdvance.add(i);
 			// if preceding rotor is at notch position then this rotor moves on
 			}else if (this.rotors[i - 1].isAtNotchPosition()){
-				System.out.println("\n Previous rotor at notch position");
 				rotorsToAdvance.add(i);
 			} else if (this.rotors[i].isAtNotchPosition() && i < (getNumberOfRotors()-1)){
 				rotorsToAdvance.add(i);	
 			}
 		}
 		for (int i = 0; i < rotorsToAdvance.size(); i++) {
-			System.out.println("\nAdvancing rotor: " + rotorsToAdvance.get(i) + "\n\n");
 			this.rotors[rotorsToAdvance.get(i)].advance();
 		}
 	}
@@ -145,8 +137,6 @@ public class EnigmaMachine {
 	}
 
 	private void setIndicator(int rotor, char letter) {
-		System.out.println("Setting indicator on rotor " + rotor + " to "
-				+ letter);
 		this.rotors[rotor].setIndicator(letter);		
 	}
 

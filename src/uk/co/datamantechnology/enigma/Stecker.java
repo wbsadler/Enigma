@@ -40,7 +40,6 @@ public class Stecker {
 				encryptedCharacter = pairings.charAt(position+1);
 			}
 		}
-		System.out.println("Stecker swapped " + clearText + " to " + encryptedCharacter);
 		return encryptedCharacter;
 	}
 	

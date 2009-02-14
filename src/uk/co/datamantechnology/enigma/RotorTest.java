@@ -137,25 +137,22 @@ public class RotorTest extends TestCase {
 	
 	public void testIsAtNotchPosition(){
 		Rotor testRotor = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
-		assertEquals("Notch has not been set to initial value!",'V',testRotor.getAdjustedNotch());
+		assertEquals("Notch has not been set to initial value!",'V',testRotor.getNotch());
 		for (int i = 0; i < 26; i++){
 			if (i == 21){
-				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i + ")",testRotor.isAtNotchPosition());
+				assertTrue("isAtNotchPosition is faulty! (" + i + ")",testRotor.isAtNotchPosition());
 			}else{
-				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i + ")",!testRotor.isAtNotchPosition());	
+				assertTrue("isAtNotchPosition is faulty(" + i + ")",!testRotor.isAtNotchPosition());	
 			}
 			testRotor.advance();
 		}
-		testRotor.setRingSetting('B');
+		testRotor.setRingSetting('F');
 		testRotor.setIndicator('A');
 		for (int i = 0; i < 26; i++){
-			System.out.println("indicator : " + testRotor.getIndicator());
-			System.out.println("i : " + i);
-			
-			if (i == 20){
-				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i + ")",testRotor.isAtNotchPosition());
+			if (i == 21){
+				assertTrue("isAtNotchPosition is faulty! (" + i + ")",testRotor.isAtNotchPosition());
 			}else{
-				assertTrue("isAtNotchPosition is faulty!" + testRotor.getAdjustedNotch() + " (" + i+ ")",!testRotor.isAtNotchPosition());	
+				assertTrue("isAtNotchPosition is faulty!(" + i+ ")",!testRotor.isAtNotchPosition());	
 			}
 			testRotor.advance();
 		}
@@ -166,12 +163,6 @@ public class RotorTest extends TestCase {
 		testRotor.setRingSetting('A');
 		testRotor.setIndicator('A');
 		assertEquals("setRingSetting isn't working!",'A',testRotor.getIndicator());
-		testRotor.setRingSetting('B');
-		assertEquals("Notch has not been moved back one!",'U',testRotor.getAdjustedNotch());
-		testRotor.setRingSetting('D');
-		assertEquals("Notch has not been moved back three!",'S',testRotor.getAdjustedNotch());
-		testRotor.setRingSetting('C');
-		assertEquals("Notch has not been moved back two!",'T',testRotor.getAdjustedNotch());
 		testRotor.setRingSetting('B');
 		testRotor.setIndicator('A');
 		assertEquals("setRingSetting isn't working!",'A',testRotor.getIndicator());
