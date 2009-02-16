@@ -19,10 +19,13 @@ public class SteckerTest extends TestCase {
 		expected = 'A';
 		assertEquals("Encrypt isn't working!",expected,testStecker.encrypt('B'));
 				
-//		TODO: test that the Stecker works both ways... i.e. D should encrypt to K, and K should encrypt to D?..
+		// testing that the Stecker works both ways... i.e. D should encrypt to K, and K should encrypt to D..
 		testStecker.addPairing("DK");
 		expected = 'K';
 		assertEquals("Encrypt isn't working!",expected,testStecker.encrypt('D'));
+		
+		expected = 'D';
+		assertEquals("Encrypt isn't working!",expected,testStecker.encrypt('K'));
 		
 	}
 	

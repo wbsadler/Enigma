@@ -169,8 +169,6 @@ public class RotorTest extends TestCase {
 		assertEquals("encrypt isn't responding to ringSetting properly!",'P',testRotor.encrypt('A'));		
 		testRotor.setIndicator('A');
 		assertEquals("setRingSetting isn't working!",'A',testRotor.getIndicator());
-		assertEquals("encrypt isn't responding to ringSetting properly!",'C',testRotor.encrypt('B'));
-		
-		// TODO: test that the notch position is revised on the ring setting! 
+		assertEquals("encrypt isn't responding to ringSetting properly!",'C',testRotor.encrypt('B')); 
 	}
 }

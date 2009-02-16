@@ -6,35 +6,22 @@ public class Alphabet {
 	public static final int ASCII_A = 65;
 	
 	public static char goForwards(char from){
-		int ascii = (int) from;
-		ascii  =  ((ascii-ASCII_A+1) % NUMBER_OF_LETTERS_IN_ALPHABET)+ASCII_A;
-		return (char) ascii;
+		return goForwards(from, 1);
 	}
 	
 	public static char goForwards(char from, int numberOfLetters){
-		char currentLetter = from;
-		for (int i = 0; i<numberOfLetters; i++){
-			currentLetter = goForwards(currentLetter);
-		}
-		return currentLetter;
+		int letterIndex = toLetterIndex(from);
+		letterIndex =  (letterIndex + numberOfLetters + NUMBER_OF_LETTERS_IN_ALPHABET) % NUMBER_OF_LETTERS_IN_ALPHABET;
+		return toLetter(letterIndex);
 	}
 	
 	public static char goBackwards(char from){
-		int ascii = (int) from;
-		ascii  =  ((ascii-ASCII_A-1 + NUMBER_OF_LETTERS_IN_ALPHABET) % NUMBER_OF_LETTERS_IN_ALPHABET)+ASCII_A;
-		return (char) ascii;
+		return goBackwards(from,1);
 	}
 	
 	public static char goBackwards(char from, int numberOfLetters){
-		char currentLetter = from;
-		if (numberOfLetters > 0){
-			for (int i = 0; i<numberOfLetters; i++){
-				currentLetter = goBackwards(currentLetter);
-			}
-		}
-		return currentLetter;
+		return goForwards(from,-numberOfLetters);
 	}
-	
 	
 	public static int toLetterIndex(char letter){
 		return (int)letter - ASCII_A;
