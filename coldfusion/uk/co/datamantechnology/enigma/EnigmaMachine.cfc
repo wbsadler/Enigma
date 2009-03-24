@@ -1,4 +1,4 @@
-<cfcomponent>
+<cfcomponent displayname="EnigmaMachine">
 	
 	<cfscript>
 		variables.numberOfRotors = 3; // e.g. 3 = this a three rotor enigma machine!
@@ -39,7 +39,6 @@
 	<cffunction access="public" returntype="void" name="setRingSetting" output="true">
 		<cfargument type="numeric" name="rotorNumber" required="true">
 		<cfargument type="string" name="letter" required="true">
-		<cftrace text="Setting ring #arguments.rotorNumber# to #arguments.letter#" />
 		<cfscript>
 			variables.rotors[arguments.rotorNumber].setRingSetting(arguments.letter);
 		</cfscript>
@@ -49,6 +48,12 @@
 		<cfargument type="String" name="pairings" required="true">
 		<cfscript>
 			variables.stecker.setPairings(pairings);
+		</cfscript>
+	</cffunction>
+	
+	<cffunction access="public" returntype="string" name="getSteckerPairings" output="false">
+		<cfscript>
+			return variables.stecker.getPairings();
 		</cfscript>
 	</cffunction>
 	
@@ -64,11 +69,22 @@
 		</cfscript>
 	</cffunction>
 	
+	<cffunction access="public" returntype="string" name="getWheelOrder" output="false">
+		<cfscript>
+			var i = 0;
+			var wheelOrderString = "";
+			for (i=1; i <= ArrayLen(variables.wheelOrder); i++){
+				wheelOrderString &= variables.wheelOrder[i];
+			}
+			return wheelOrderString;
+		</cfscript>
+	</cffunction>
+	
 	<cffunction access="private" returntype="void" name="selectRotor" output="false">
 		<cfargument type="numeric" name="wheelOrderPosition" required="true">
 		<cfargument type="numeric" name="rotorNumber" required="true">
 		<cfscript>	
-			wheelOrder[wheelOrderPosition] = rotorNumber - 1;
+			variables.wheelOrder[wheelOrderPosition] = rotorNumber - 1;
 			variables.rotors[wheelOrderPosition] = CreateObject("component","Rotor").init(rotorNumber);
 		</cfscript>
 	</cffunction>
@@ -106,16 +122,16 @@
 		</cfscript>
 	</cffunction>
 	
-	<cffunction access="public" returntype="string" name="encipher" output="true">
+	<cffunction access="public" returntype="string" name="encipher" output="false">
 		<cfargument type="string" name="plainText" required="true">
 		<cfscript>
 			var i=0;
-			WriteOutput("enciphering: " & plainText);
+			// WriteOutput("Enciphering: " & plainText & "<br /><br />");
 			encypheredText = "";
 			for (i=1; i<=Len(plainText); i++){
 				encypheredText &= encipherCharacter(Mid(plainText,i,1));			
 			}
-			WriteOutput("Encyphered text : " & encypheredText.toString() & "<br />");
+			// WriteOutput("Encyphered text : " & encypheredText.toString() & "<br /><br />");
 			return encypheredText.toString();
 		</cfscript>
 	</cffunction>
@@ -125,10 +141,10 @@
 		<cfscript>
 			var i = 0;
 			encypheredChar = arguments.clearText;
-			
+			// WriteOutput(arguments.clearText);
 			// go through the stecker		
 			encypheredChar = variables.stecker.encipher(clearText);
-			
+			// WriteOutput(encypheredChar);
 			// move the rotors on one
 			advanceRotors();
 			// go through the rotors in acsending order (encypher)
@@ -146,7 +162,7 @@
 			// go back trhough the Stecker
 			encypheredChar = variables.stecker.encipher(encypheredChar);
 	
-			WriteOutput(clearText & " " & encypheredChar & " " & getIndicators());
+			// WriteOutput(clearText & " " & encypheredChar & " " & getIndicators() & "<br/>");
 			// return enciphered character
 			return encypheredChar;
 		</cfscript>

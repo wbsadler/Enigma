@@ -123,26 +123,38 @@
 			var letterIndex = Alphabet.toLetterIndex(arguments.clearCharacter);
 			// encipher the character taking into account the current position of the rotor  
 			var encipheredCharacter = getLetterAtPosition(letterIndex);
+			// WriteOutput(arguments.clearCharacter);
+			// WriteOutput(Trim(encipheredCharacter));
 			// take care of the offset
 			if (getCurrentPosition() > 0) { 
 				letterIndex = Alphabet.toLetterIndex(encipheredCharacter);
 				letterIndex = Alphabet.goBackwards(letterIndex,getCurrentPosition()); 
 				encipheredCharacter = Alphabet.toLetter(letterIndex);
+				// WriteOutput(Trim(encipheredCharacter));
+			}else{
+				// WriteOutput(Trim(encipheredCharacter));
 			} 
+			// WriteOutput("<br />");
 			return encipheredCharacter;
 		</cfscript>
 	</cffunction>
 
-	<cffunction  access="public" returntype="any" name="decipher">
+	<cffunction  access="public" returntype="any" name="decipher" output="false">
 		<cfargument type="string" name="encipheredLetter" required="true">
 		<cfscript>
 			// get position of letter taking into account the current position of the rotor
-			var decipheredLetterIndex = getPositionOfLetter(encipheredLetter);
+			var decipheredLetterIndex = getPositionOfLetter(arguments.encipheredLetter);
 			var decipheredLetter = Alphabet.toLetter(decipheredLetterIndex);
+			// WriteOutput(arguments.encipheredLetter);
+			// WriteOutput(decipheredLetter);
 			// re-adjust output for any offset
 			if (getCurrentPosition() > 0) {
-				decipheredLetter = Alphabet.goBackwards(decipheredLetter, getCurrentPosition()); 
-			}		
+				decipheredLetter = Alphabet.goBackwards(decipheredLetter, getCurrentPosition());
+				//WriteOutput(decipheredLetter);
+			}else{
+				//WriteOutput(decipheredLetter); 
+			}
+			// WriteOutput(" ");
 			return decipheredLetter;
 		</cfscript>
 	</cffunction>
@@ -179,7 +191,7 @@
 
 	<cffunction access="public" returntype="boolean" name="isAtNotchPosition">
 		<cfscript>
-			return (getIndicator() == getAdjustedNotch());
+			return (getIndicator() == getNotch());
 		</cfscript>
 	</cffunction>
 

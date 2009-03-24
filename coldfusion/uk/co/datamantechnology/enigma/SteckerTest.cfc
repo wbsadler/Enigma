@@ -23,6 +23,10 @@
 			
 			expected = 'D';
 			assertEquals(expected,testStecker.encipher('K'));
+			
+			expected = 'R';
+			testStecker.setPairings("DNGRISKCQXTMPVHYFWBJ");
+			assertEquals(expected,testStecker.encipher('G'));
 		</cfscript>
 	</cffunction>
 	

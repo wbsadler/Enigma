@@ -128,7 +128,11 @@
 	//		
 			expected = "FLUGZEUGFUEHRERISTOFWYYXFUELLGRAFXFUELLGPAFXPOFOP";
 			actual = testEnigma.encipher(plainText);
-			assertEquals("Full encipherion ain't working!",expected,actual);
+			
+			debug(actual);
+			debug(expected);
+			assertEquals(Len(expected),Len(actual));
+			assertEquals(expected,actual);
 			
 			// now try encyphering...
 			testEnigma.setIndicators("RLP");

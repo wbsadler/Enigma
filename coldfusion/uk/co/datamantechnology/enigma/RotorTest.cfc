@@ -157,10 +157,11 @@
 				}
 				testRotor.advance();
 			}
+			// the ring setting should not have any bearing on the notch position
 			testRotor.setRingSetting('B');
 			testRotor.setIndicator('A');
 			for (i = 0; i < 26; i++){
-				if (i == 20){
+				if (i == 21){
 					assertTrue(testRotor.isAtNotchPosition(),"isAtNotchPosition is faulty! (" & i & ")");
 				}else{
 					assertTrue(!testRotor.isAtNotchPosition(),"isAtNotchPosition is faulty!(" & i & ")");	

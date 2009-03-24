@@ -28,13 +28,13 @@
 	<cffunction access="public" returntype="void" name="setPairings" output="false">
 		<cfargument type="String" name="steckerPairings" required="true">
 		<cfscript>
-			this.pairings = arguments.steckerPairings;
+			variables.pairings = arguments.steckerPairings;
 		</cfscript>
 	</cffunction>
 	
 	<cffunction access="public" returntype="string" name="getPairings" output="false">
 		<cfscript>
-			return pairings.toString();
+			return variables.pairings;
 		</cfscript>
 	</cffunction>
 	
