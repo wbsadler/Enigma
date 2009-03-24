@@ -83,10 +83,10 @@ public class EnigmaMachine {
 
 	public char encrypt(char clearText) {
 		char encypheredChar = clearText;
-		
+		// System.out.print(clearText);
 		// go through the stecker		
 		encypheredChar = this.stecker.encrypt(clearText);
-		
+		// System.out.print(encypheredChar);
 		// move the rotors on one
 		advanceRotors();
 		// go through the rotors in acsending order (encypher)
@@ -103,8 +103,9 @@ public class EnigmaMachine {
 		
 		// go back trhough the Stecker
 		encypheredChar = this.stecker.encrypt(encypheredChar);
-
-		System.out.println(clearText + " " + encypheredChar + " " + getIndicators());
+		
+		// System.out.println();
+		// System.out.println(clearText + " " + encypheredChar + " " + getIndicators());
 		// return encrypted character
 		return encypheredChar;
 	}

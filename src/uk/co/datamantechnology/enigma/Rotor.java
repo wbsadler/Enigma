@@ -82,28 +82,40 @@ public class Rotor {
 
 
 	public char encrypt(char clearCharacter) {
+		// System.out.print(clearCharacter);
 		char encryptedCharacter;
 		int letterIndex = Alphabet.toLetterIndex(clearCharacter);
 		// encrypt the character taking into account the current position of the rotor  
 		encryptedCharacter = getLetterAtPosition(letterIndex);
+		// System.out.print(encryptedCharacter);
 		// take care of the offset
 		if (getCurrentPosition() > 0) { 
 			letterIndex = Alphabet.toLetterIndex(encryptedCharacter);
 			letterIndex = Alphabet.goBackwards(letterIndex,getCurrentPosition()); 
 			encryptedCharacter = Alphabet.toLetter(letterIndex);
+			// System.out.print(encryptedCharacter);
+		}else{
+			// System.out.print(encryptedCharacter);
 		} 
+		// System.out.print(" ");
 		return encryptedCharacter;
 	}
 
 	public char decrypt(char encryptedLetter) {
+		// System.out.print(encryptedLetter);
 		char decryptedLetter;
 		// get position of letter taking into account the current position of the rotor
 		int decryptedLetterIndex = getPositionOfLetter(encryptedLetter);
 		decryptedLetter = Alphabet.toLetter(decryptedLetterIndex);
+		// System.out.print(decryptedLetter);
 		// re-adjust output for any offset
 		if (getCurrentPosition() > 0) {
-			decryptedLetter = Alphabet.goBackwards(decryptedLetter, getCurrentPosition()); 
+			decryptedLetter = Alphabet.goBackwards(decryptedLetter, getCurrentPosition());
+			// System.out.print(decryptedLetter);
+		}else{
+			// System.out.print(decryptedLetter);
 		}		
+		// System.out.print(" ");
 		return decryptedLetter;
 	}
 	
