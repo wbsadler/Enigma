@@ -4,16 +4,10 @@
 		variables.numberOfRotors = 3; // e.g. 3 = this a three rotor enigma machine!
 		variables.wheelOrder = ArrayNew(1); // assuming a 3 rotor set up, from left to right we have 3,2,1
 		variables.Reflector = "";
+		variables.Alphabet = CreateObject("component","Alphabet").init();
 	</cfscript>
 	
 	<cffunction access="public" returntype="EnigmaMachine" name="init">
-		<cfscript>
-			setUp();
-			return this;
-		</cfscript>
-	</cffunction>
-	
-	<cffunction access="public" returntype="void" name="setUp" output="false">
 		<cfscript>
 			var i = 0;
 			for (i=1; i <= variables.numberOfRotors; i++){
@@ -23,6 +17,7 @@
 			setRingSettings("AAA");
 			variables.Reflector = CreateObject("component","Reflector").init(1); // choosing the B reflector;
 			variables.stecker = CreateObject("component","Stecker").init();
+			return this;
 		</cfscript>
 	</cffunction>
 	
@@ -33,6 +28,17 @@
 			for (i=1; i <= Len(arguments.ringSettings); i++){
 				setRingSetting(Len(arguments.ringSettings)-i+1,Mid(arguments.ringSettings,i,1));
 			}		
+		</cfscript>
+	</cffunction>
+	
+	<cffunction access="public" returntype="string" name="getRingSettings" output="false">
+		<cfscript>
+			var ringSettings = "";
+			var i=0;
+			for (i=variables.numberOfRotors; i > 0; i--){
+				ringSettings &= variables.Alphabet.toLetter(variables.rotors[i].getRingSetting()); 
+			}		
+			return ringSettings;
 		</cfscript>
 	</cffunction>
 	
@@ -73,7 +79,7 @@
 		<cfscript>
 			var i = 0;
 			var wheelOrderString = "";
-			for (i=1; i <= ArrayLen(variables.wheelOrder); i++){
+			for (i=variables.numberOfRotors; i > 0; i--){
 				wheelOrderString &= variables.wheelOrder[i];
 			}
 			return wheelOrderString;
@@ -84,7 +90,7 @@
 		<cfargument type="numeric" name="wheelOrderPosition" required="true">
 		<cfargument type="numeric" name="rotorNumber" required="true">
 		<cfscript>	
-			variables.wheelOrder[wheelOrderPosition] = rotorNumber - 1;
+			variables.wheelOrder[wheelOrderPosition] = rotorNumber;
 			variables.rotors[wheelOrderPosition] = CreateObject("component","Rotor").init(rotorNumber);
 		</cfscript>
 	</cffunction>
