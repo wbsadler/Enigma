@@ -1,7 +1,6 @@
 import configuration
 import unittest
 
-
 class ConfigurationTest(unittest.TestCase):
 
     def setUp(self):
@@ -52,3 +51,8 @@ class ConfigurationTest(unittest.TestCase):
         assert self.cfg.get_total_number_of_rotors() == \
             self.TOTAL_NUMBER_OF_ROTORS, "Wrong number of rotors"
 
+def suite():
+    return unittest.TestLoader().loadTestsFromTestCase(ConfigurationTest)
+
+if __name__ == '__main__':
+    unittest.main()

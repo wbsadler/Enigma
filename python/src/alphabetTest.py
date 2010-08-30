@@ -1,7 +1,7 @@
 import alphabet
 import unittest
 
-class alphabetTest(unittest.TestCase):
+class AlphabetTest(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -100,6 +100,10 @@ class alphabetTest(unittest.TestCase):
         expected = 24
         actual = alphabet.go_forwards(0, -2)
         self.assertEquals(expected, actual)
+
+
+def suite():
+    return unittest.TestLoader().loadTestsFromTestCase(AlphabetTest)
 
 if __name__ == "__main__":
     unittest.main()

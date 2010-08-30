@@ -3,23 +3,19 @@ import configuration
 
 class Rotor():
 
-
-    def __init__(self):
+    def __init__(self, rotor):
         self.NUMBER_OF_LETTERS_IN_ALPHABET = 26
         self.wiring = "" # scrambled alphabet
         self.notch = "" # the letter next to the notch 
         self.ringSetting = 0 # ringStellung
         self.currentPosition = 0 # the position relative to the wiring
-
-    def initialise(self, rotorNumber):
         cfg = configuration.Configuration()
         notches = cfg.get_notches()
         rotorWirings = cfg.get_rotor_wirings()
-        self.setNotch(notches[rotorNumber])
-        self.setWiring(rotorWirings[rotorNumber])
+        self.setNotch(notches[rotor - 1])
+        self.setWiring(rotorWirings[rotor - 1])
         self.setIndicator('A')
         self.setRingSetting('A')
-
 
     def setUp(self, wiring, notch):
         self.setWiring(wiring)
@@ -73,14 +69,15 @@ class Rotor():
         letterIndex = alphabet.to_letter_index(clearCharacter)
         # encipher the character taking into account the current position of the rotor  
         encipheredCharacter = self.getLetterAtPosition(letterIndex)
-        # WriteOutput(clearCharacter)
-        # WriteOutput(Trim(encipheredCharacter))
+        print("\renciphering: " + clearCharacter);
+        print("\r" + self.wiring);
+        print("enciphered as: " + encipheredCharacter + "\r")
         # take care of the offset
         if self.getCurrentPosition() > 0:
             letterIndex = alphabet.to_letter_index(encipheredCharacter)
             letterIndex = alphabet.go_backwards(letterIndex, self.getCurrentPosition())
             encipheredCharacter = alphabet.to_letter(letterIndex)
-            # WriteOutput(Trim(encipheredCharacter))
+        print("\r offset to :" + encipheredCharacter)
         return encipheredCharacter
 
     def decipher(self, encipheredLetter):

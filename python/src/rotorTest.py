@@ -7,7 +7,7 @@ class RotorTest (unittest.TestCase):
         pass #TODO: implementation needed
 
     def testSetCurrentPosition(self):
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
         testRotor.setCurrentPosition(0)
         assert testRotor.getCurrentPosition() == 0
@@ -15,14 +15,14 @@ class RotorTest (unittest.TestCase):
         assert testRotor.getCurrentPosition() == 1
 
     def testGetCurrentPosition(self):
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
         assert testRotor.getCurrentPosition() > -1
         assert testRotor.getCurrentPosition() < 26
 
     def testencipher(self):
         # Rotor I - rotors[0]
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
 
         expected = 'B'
@@ -71,7 +71,7 @@ class RotorTest (unittest.TestCase):
 
     def testdecipher(self):
         # Rotor I - rotors[0]
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
 
         expected = 'A'
@@ -110,31 +110,29 @@ class RotorTest (unittest.TestCase):
 
 
     def testdecipherWithRingSetting(self):
+        testRotor = rotor.Rotor(1)
+        testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
+        testRotor.set_ring_setting('B')
+        testRotor.setIndicator('A')
+        expected = 'U'
+        actual = testRotor.decipher('B')
+        assert expected == actual, "testdecipherWithRingSetting"
 
-            testRotor = rotor.Rotor()
-            testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
-            testRotor.setRingSetting('B')
-            testRotor.setIndicator('A')
-            expected = 'U'
-            actual = testRotor.decipher('B')
-            assert expected == actual, "testdecipherWithRingSetting"
-
-            expected = 'C'
-            actual = testRotor.decipher('E')
-            assert expected == actual
+        expected = 'C'
+        actual = testRotor.decipher('E')
+        assert expected == actual
 
 
 
 
     def testGetIndicator(self):
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
         testRotor.setIndicator('D')
         assert 'D' == testRotor.getIndicator(), "getIndicator ain't working!"
 
     def testIsAtNotchPosition(self):
-        i = 0
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
         assert 'V' == testRotor.getNotch(), "Notch has not been set to initial value !"
 
@@ -146,7 +144,7 @@ class RotorTest (unittest.TestCase):
             testRotor.advance()
 
         # the ring setting should not have any bearing on the notch position
-        testRotor.setRingSetting('B')
+        testRotor.set_ring_setting('B')
         testRotor.setIndicator('A')
         for i in range(26):
             if (i == 21):
@@ -157,26 +155,31 @@ class RotorTest (unittest.TestCase):
 
 
     def testSetRingSetting(self):
-
-        testRotor = rotor.Rotor()
+        testRotor = rotor.Rotor(1)
         testRotor.setUp("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V')
-        testRotor.setRingSetting('A')
+        testRotor.set_ring_setting('A')
         testRotor.setIndicator('A')
-        assert 'A' == testRotor.getIndicator(), "setRingSetting isn't working!"
+        assert 'A' == testRotor.getIndicator(), "set_ring_setting isn't working!"
 
-        testRotor.setRingSetting('B')
+        testRotor.set_ring_setting('B')
         testRotor.setIndicator('A')
-        assert 'A' == testRotor.getIndicator(), "setRingSetting isn't working ! "
+        assert 'A' == testRotor.getIndicator(), "set_ring_setting isn't working ! "
         assert 1 == testRotor.getRingSetting(), "getRingSetting isn't working properly!"
         assert 'P' == testRotor.encipher('A'), "encipher isn't responding to ringSetting properly ! "
 
-        testRotor.setRingSetting('F')
+        testRotor.set_ring_setting('F')
         testRotor.setIndicator('A')
-        assert 'A' == testRotor.getIndicator(), "setRingSetting isn't working!"
+        assert 'A' == testRotor.getIndicator(), "set_ring_setting isn't working!"
         assert 5 == testRotor.getRingSetting(), "getRingSetting isn't working properly ! "
 
-        testRotor.setRingSetting('B')
+        testRotor.set_ring_setting('B')
         testRotor.setIndicator('A')
-        assert 'A' == testRotor.getIndicator(), "setRingSetting isn't working!"
+        assert 'A' == testRotor.getIndicator(), "set_ring_setting isn't working!"
         assert 'C' == testRotor.encipher('B'), "encipher isn't responding to ringSetting properly ! "
 
+def suite():
+    return unittest.TestLoader().loadTestsFromTestCase(RotorTest)
+
+
+if __name__ == '__main__':
+    unittest.main()
