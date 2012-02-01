@@ -61,18 +61,18 @@ class AlphabetTest < Test::Unit::TestCase
     assert(expected==actual)
   end    
   
-  def test_to_letter_index()
+  def test_get_position()
     alphabet = Alphabet.new()
     expected = 0
-    actual = alphabet.to_letter_index('A')
+    actual = alphabet.get_position('A')
     assert(expected==actual)
     
     expected = 1
-    actual = alphabet.to_letter_index('B')
+    actual = alphabet.get_position('B')
     assert(expected==actual)
     
     expected = 25
-    actual = alphabet.to_letter_index('Z')
+    actual = alphabet.get_position('Z')
     assert(expected==actual)
     
   end

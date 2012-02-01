@@ -26,7 +26,10 @@ class ConfigurationTest < Test::Unit::TestCase
   
   def test_get_rotor_wirings_should_return_array_of_scrambled_alphabet
     rotorWirings = @cfg.get_rotor_wirings()
-    rotorWirings.each {|wiring| assert_equal(wiring.to_s.length,@NUMBER_OF_LETTERS_IN_ALPHABET)}
+    rotorWirings.each {
+      |wiring| 
+      assert_equal(wiring.to_s.length,@NUMBER_OF_LETTERS_IN_ALPHABET)
+    }
   end
 
 
@@ -36,27 +39,28 @@ class ConfigurationTest < Test::Unit::TestCase
       |wiring|
       1.upto(@NUMBER_OF_LETTERS_IN_ALPHABET){
         |j|
-         c=(j+@ASCII_A).chr
-         assertwiring.index(c)
+         c = (j + @ASCII_A - 1).chr
+         assert(wiring.count(c) <= 1)
       }
     }
-    
-#        for i in range(len(rotorWirings)):
-#            for j in range(self.NUMBER_OF_LETTERS_IN_ALPHABET):
-#                    c = chr(j + self.ASCII_A)
-#                    assert rotorWirings[i].find(c) == \
-#                        rotorWirings[i].rfind(c), c + \
-#                        " is duplicated in rotor " + str(i) + "!"
-#
   end
-end
-#    def testGetRotorWiringsContainsAllLettersInAlphabet(self):
-#        rotorWirings = self.cfg.get_rotor_wirings()
-#        for i in range (len(rotorWirings) - 1):
-#            for j in range(self.NUMBER_OF_LETTERS_IN_ALPHABET):
-#                c = chr(j + self.ASCII_A)
-#                assert rotorWirings[i].find(c) > -1, c + " not found!"
-#
+
+  def testGetRotorWiringsContainsAllLettersInAlphabet()
+    rotorWirings = @cfg.get_rotor_wirings()
+    rotorWirings.each {
+      |wiring|
+      1.upto(@NUMBER_OF_LETTERS_IN_ALPHABET){
+        |j|
+        c = (j + @ASCII_A - 1).chr
+        puts wiring.to_s
+        puts c
+        puts wiring.index(c)
+        assert(wiring.index(c) >= 0)
+      }
+    }
+  end
+      
+                
 #    def testGetTotalNumberOfReflectors(self):
 #        assert self.cfg.get_total_number_of_reflectors() == \
 #            self.TOTAL_NUMBER_OF_REFLECTORS, "Wrong number of reflectors!"
@@ -65,6 +69,7 @@ end
 #        assert self.cfg.get_total_number_of_rotors() == \
 #            self.TOTAL_NUMBER_OF_ROTORS, "Wrong number of rotors"
 #
+end
 #def suite():
 #    return unittest.TestLoader().loadTestsFromTestCase(ConfigurationTest)
 #
