@@ -1,2 +1,4 @@
 .project
 ruby/.buildpath
+testresults
+junithtml
