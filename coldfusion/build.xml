@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <project name="Sample" basedir="." default="main">
-	
+
 	<target name="init">
-		<property name="testroot" location="uk/co/datamantechnology/enigma" />
-		<property name="componentPath" value="uk.co.datamantechnology.enigma" />
+		<property name="testroot" location="enigma" />
+		<property name="componentPath" value="enigma" />
 		<property name="server" value="enigma.local" />
 		<property name="port" value="80" />
 
 		<!-- wherever the mxunit-ant.jar lives -->
-		<property name="mxunitant" location="/Users/Brian/Sites/mxunit/ant" /><!-- TODO: refactor hard coded path -->	
+		<property name="mxunitant" location="/Users/Brian/Sites/mxunit/ant" /><!-- TODO: refactor hard coded path -->
 		<property name="mxunitjar" location="${mxunitant}/lib/mxunit-ant.jar" />
 		<property name="mxunitxsl" location="${mxunitant}/xsl" />
 

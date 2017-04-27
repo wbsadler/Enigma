@@ -1,4 +1,4 @@
-<cfset enigma = CreateObject("java","uk.co.datamantechnology.enigma.EnigmaMachine")>
+<cfset enigma = CreateObject("java","enigma.EnigmaMachine")>
 
 <cfdump var="#enigma#">
 
@@ -8,7 +8,7 @@
 	enigma.setIndicators("DHO");
 	enigma.setSteckerPairings("DNGRISKCQXTMPVHYFWBJ");
 	messageIndicator = "GXS";
-	decodedmessageIndicator = enigma.encrypt(messageIndicator); 	
+	decodedmessageIndicator = enigma.encrypt(messageIndicator);
 </cfscript>
 
 <cfdump var="#decodedmessageIndicator#">
@@ -28,7 +28,7 @@
 <h2>ColdFusion</h2>
 
 <cfset enigma = CreateObject("component","uk.co.datamantechnology.enigma.EnigmaMachine").init()>
-		
+
 <cfdump var="#enigma#">
 
 <cfscript>
@@ -37,7 +37,7 @@
 	enigma.setIndicators("DHO");
 	enigma.setSteckerPairings("DNGRISKCQXTMPVHYFWBJ");
 	messageIndicator = "GXS";
-	decodedmessageIndicator = enigma.encipher(messageIndicator); 	
+	decodedmessageIndicator = enigma.encipher(messageIndicator);
 </cfscript>
 
 <cfdump var="#decodedmessageIndicator#">
