@@ -13,7 +13,7 @@ class Stecker():
         if not startPosition == -1:
             self.pairings = self.pairings[:startPosition] + \
             self.pairings[startPosition + 2:]
-        print self.pairings + '\r'
+        print (self.pairings + '\r')
 
     def set_pairings(self, steckerPairings):
         self.pairings = steckerPairings
@@ -35,4 +35,3 @@ class Stecker():
 
     def isSteckered(self, letter):
         return self.pairings.find(letter) >= 0
-

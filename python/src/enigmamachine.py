@@ -20,7 +20,7 @@ class EnigmaMachine():
         self.stecker.set_pairings(pairings)
 
     def set_wheel_order(self, rotor1, rotor2, rotor3):
-        # TODO: refactor to be able to deal with more any number of rotors
+        # TODO: refactor to be able to deal with any number of rotors
         self.select_rotor(2, rotor1)
         self.select_rotor(1, rotor2)
         self.select_rotor(0, rotor3)
@@ -47,11 +47,11 @@ class EnigmaMachine():
         return returnString;
 
     def encrypt(self, plainText):
-        print "Encrypting: " + plainText
+        print ("Encrypting: " + plainText)
         encypheredText = ""
         for i in range(len(plainText)):
             encypheredText += self.encrypt_character(plainText[i])
-        print "Encyphered text : " + encypheredText
+        print ("Encyphered text : " + encypheredText)
         return encypheredText
 
     def encrypt_character(self, clearText) :
