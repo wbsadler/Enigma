@@ -2,3 +2,4 @@
 ruby/.buildpath
 testresults
 junithtml
+python/src/__pycache__
